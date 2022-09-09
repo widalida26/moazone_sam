@@ -1,0 +1,133 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: moazone app
+
+Globals:
+  Function:
+    Timeout: 3
+
+Parameters:
+  Prefix:
+    Default: 'moazone'
+    Type: String
+    Description: Prefix for resources
+
+  RDSUsername:
+    Type: String
+    ConstraintDescription: 'must be between 1 to 16 alphanumeric characters.'
+    Description: 'Database admin account user name, between 1 to 16 alphanumeric characters.'
+    MaxLength: '16'
+    MinLength: '1'
+    Default: 'admin'
+
+  RDSPassword:
+    NoEcho: true
+    Type: 'String'
+    MinLength: '1'
+    MaxLength: '41'
+    Description: 'Database admin account password in RDS'
+
+  RDSPort:
+    Default: '3306'
+    Type: 'Number'
+    MinValue: '1150'
+    MaxValue: '65535'
+    Description: 'TCP/IP port used to connect DB in RDS.'
+
+  RDSHost:
+    Type: 'String'
+    Description: 'Host used to connect DB in RDS.'
+
+  RDSDBName:
+    Default: 'card'
+    Type: 'String'
+    Description: 'Database name used in application.'
+
+Resources:
+  # Secret Manager
+  RDSProfile:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: rds-user
+      SecretString: !Sub |
+        {
+          "username":"${RDSUsername}",
+          "password":"${RDSPassword}", 
+          "host":"${RDSHost}",
+          "port":"${RDSPort}",
+          "dbname":"${RDSDBName}",
+          "ssl":"true"
+        }
+
+  RDSSecretAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId: !Ref RDSProfile
+      TargetId: arn:aws:rds:ap-northeast-2:269872288918:db:card-database
+      TargetType: AWS::RDS::DBInstance
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+      Policies:
+        - PolicyName: RDSSecret
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref RDSProfile
+      RoleName: !Sub ${Prefix}-Role-Lambda
+
+  RootFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ['root.handler']
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+    Metadata:
+      # DockerTag: python 3.9
+      DockerContext: ./functions/root/
+      Dockerfile: Dockerfile.root
+      DockerTag: v0.1
+  AuthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ['auth.handler']
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /auth/
+            Method: get
+    Metadata:
+      # DockerTag: python 3.9
+      DockerContext: ./functions/auth/
+      Dockerfile: Dockerfile.auth
+      DockerTag: v0.1
+# Outputs:
+#   HelloWorldApi:
+#     Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
+#     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
