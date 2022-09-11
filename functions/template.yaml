@@ -270,6 +270,25 @@ Resources:
       Dockerfile: Dockerfile.root
       DockerTag: v0.1
 
+  LoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ['login.handler']
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /login/
+            Method: get
+    Metadata:
+      # DockerTag: python 3.9
+      DockerContext: ./login/
+      Dockerfile: Dockerfile.login
+      DockerTag: v0.1
+
   AuthFunction:
     Type: AWS::Serverless::Function
     Properties:

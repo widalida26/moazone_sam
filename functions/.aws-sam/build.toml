@@ -46,20 +46,29 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["PostAuthentication"]
 
-[function_build_definitions.a9606632-7a29-4ab3-bea5-a3d417651b91]
+[function_build_definitions.b34e899f-d7d1-42a1-88d4-73dbc1676a04]
 packagetype = "Image"
 functions = ["RootFunction"]
 
-[function_build_definitions.a9606632-7a29-4ab3-bea5-a3d417651b91.metadata]
+[function_build_definitions.b34e899f-d7d1-42a1-88d4-73dbc1676a04.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/root"
 Dockerfile = "Dockerfile.root"
 DockerTag = "v0.1"
 
-[function_build_definitions.d732bc6f-59aa-4ca6-972e-855c8e1d8969]
+[function_build_definitions.f9a9cf7d-5754-40af-bb15-8772ba4ae00a]
+packagetype = "Image"
+functions = ["LoginFunction"]
+
+[function_build_definitions.f9a9cf7d-5754-40af-bb15-8772ba4ae00a.metadata]
+DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/login"
+Dockerfile = "Dockerfile.login"
+DockerTag = "v0.1"
+
+[function_build_definitions.d266b6be-eafc-4fd8-b54f-8b7cf1936b16]
 packagetype = "Image"
 functions = ["AuthFunction"]
 
-[function_build_definitions.d732bc6f-59aa-4ca6-972e-855c8e1d8969.metadata]
+[function_build_definitions.d266b6be-eafc-4fd8-b54f-8b7cf1936b16.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/auth"
 Dockerfile = "Dockerfile.auth"
 DockerTag = "v0.1"
