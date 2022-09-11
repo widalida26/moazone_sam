@@ -66,6 +66,47 @@ Resources:
       TargetId: arn:aws:rds:ap-northeast-2:269872288918:db:card-database
       TargetType: AWS::RDS::DBInstance
 
+  # cognito
+  UserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Properties:
+      UserPoolName: customer-pool
+      Schema:
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: false
+      UsernameAttributes:
+        - email
+      MfaConfiguration: 'OFF'
+      LambdaConfig:
+        CreateAuthChallenge: !GetAtt CreateAuthChallenge.Arn
+        DefineAuthChallenge: !GetAtt DefineAuthChallenge.Arn
+        PreSignUp: !GetAtt PreSignUp.Arn
+        VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallengeResponse.Arn
+        PostAuthentication: !GetAtt PostAuthentication.Arn
+
+  UserPoolClient:
+    Type: 'AWS::Cognito::UserPoolClient'
+    Properties:
+      ClientName: moazone-client
+      GenerateSecret: false
+      UserPoolId: !Ref UserPool
+      ExplicitAuthFlows:
+        - CUSTOM_AUTH_FLOW_ONLY
+
+  # IAM
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -92,6 +133,125 @@ Resources:
                 Resource: !Ref RDSProfile
       RoleName: !Sub ${Prefix}-Role-Lambda
 
+  PostAuthenticationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  SetUserAttributesPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: allow-set-user-attributes
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - cognito-idp:AdminUpdateUserAttributes
+            Resource:
+              - !GetAtt UserPool.Arn
+      Roles:
+        - !Ref PostAuthenticationRole
+
+  # Lambda
+  # auth
+  DefineAuthChallenge:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/lambda-triggers/define-auth-challenge/
+      Handler: define-auth-challenge.handler
+      Runtime: nodejs12.x
+
+  CreateAuthChallenge:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/lambda-triggers/create-auth-challenge/
+      Handler: create-auth-challenge.handler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          SES_FROM_ADDRESS: widalida26@naver.com
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - ses:SendEmail
+              Resource: '*'
+
+  VerifyAuthChallengeResponse:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/lambda-triggers/verify-auth-challenge-response/
+      Handler: verify-auth-challenge-response.handler
+      Runtime: nodejs12.x
+
+  PreSignUp:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/lambda-triggers/pre-sign-up/
+      Handler: pre-sign-up.handler
+      Runtime: nodejs12.x
+
+  PostAuthentication:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/lambda-triggers/post-authentication/
+      Handler: post-authentication.handler
+      Runtime: nodejs12.x
+      Role: !GetAtt PostAuthenticationRole.Arn
+
+  # permission
+  DefineAuthChallengeInvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt DefineAuthChallenge.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+
+  CreateAuthChallengeInvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt CreateAuthChallenge.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+
+  VerifyAuthChallengeResponseInvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt VerifyAuthChallengeResponse.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+
+  PreSignUpInvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PreSignUp.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+
+  PostAuthenticationInvocationPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PostAuthentication.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+
   RootFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -109,6 +269,7 @@ Resources:
       DockerContext: ./functions/root/
       Dockerfile: Dockerfile.root
       DockerTag: v0.1
+
   AuthFunction:
     Type: AWS::Serverless::Function
     Properties:

@@ -1,1 +1,1 @@
-# moazone_sam
+.aws-sam/
