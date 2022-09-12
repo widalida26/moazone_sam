@@ -4,6 +4,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: ./functions
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
