@@ -15,7 +15,7 @@ def dday_calculator(day):
     return dday.days
 
 def handler(event, context):
-    body_data = json.loads(event['body'])
+    body_data = event['body']
 
     # users 동의 여부 업데이트
     user_id = body_data['user_id']
