@@ -313,25 +313,40 @@ Resources:
       Dockerfile: Dockerfile.challenge
       DockerTag: v0.1
 
-  AuthFunction:
+  SurveyFunction:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Image
       ImageConfig:
-        Command: ['auth.handler']
+        Command: ['survey.handler']
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         Root:
           Type: Api
           Properties:
-            Path: /auth/
-            Method: get
+            Path: /survey/
+            Method: post
     Metadata:
       # DockerTag: python 3.9
-      DockerContext: ./auth/
-      Dockerfile: Dockerfile.auth
+      DockerContext: ./survey/
+      Dockerfile: Dockerfile.survey
       DockerTag: v0.1
-# Outputs:
-#   HelloWorldApi:
-#     Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
-#     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
+
+  # AuthFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     PackageType: Image
+  #     ImageConfig:
+  #       Command: ['auth.handler']
+  #     Role: !GetAtt LambdaExecutionRole.Arn
+  #     Events:
+  #       Root:
+  #         Type: Api
+  #         Properties:
+  #           Path: /auth/
+  #           Method: get
+  #   Metadata:
+  #     # DockerTag: python 3.9
+  #     DockerContext: ./auth/
+  #     Dockerfile: Dockerfile.auth
+  #     DockerTag: v0.1

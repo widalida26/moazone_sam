@@ -19,7 +19,7 @@ def handler(event, context):
             },
             Session = challenge_data['session']
         )
-        print(response)
+        accessToken = response.AuthenticationResult.accessToken
         return {
             'statusCode': 200,
             'headers': {
@@ -27,7 +27,7 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, POST, GET'
             },
-            'body': json.dumps({ "message" : "challenge success" })
+            'body': json.dumps(accessToken) 
         }
     except:
         return {

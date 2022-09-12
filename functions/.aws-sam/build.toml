@@ -46,38 +46,38 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["PostAuthentication"]
 
-[function_build_definitions.703d7c5d-8f36-46d6-bf64-ccacd04b5a03]
+[function_build_definitions.88d87259-88c7-4433-ace0-e9a03eba2125]
 packagetype = "Image"
 functions = ["RootFunction"]
 
-[function_build_definitions.703d7c5d-8f36-46d6-bf64-ccacd04b5a03.metadata]
+[function_build_definitions.88d87259-88c7-4433-ace0-e9a03eba2125.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/root"
 Dockerfile = "Dockerfile.root"
 DockerTag = "v0.1"
 
-[function_build_definitions.cd2e327e-5cbc-4449-9e9b-8faad8358238]
+[function_build_definitions.93563634-e151-4ba5-bd0a-45dc9277c95b]
 packagetype = "Image"
 functions = ["LoginFunction"]
 
-[function_build_definitions.cd2e327e-5cbc-4449-9e9b-8faad8358238.metadata]
+[function_build_definitions.93563634-e151-4ba5-bd0a-45dc9277c95b.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/login"
 Dockerfile = "Dockerfile.login"
 DockerTag = "v0.1"
 
-[function_build_definitions.c10d4e24-b943-4773-a8fe-311b4e6f0daa]
+[function_build_definitions.106418f2-bfac-4117-a09e-5806617e42fe]
 packagetype = "Image"
 functions = ["ChallengeFunction"]
 
-[function_build_definitions.c10d4e24-b943-4773-a8fe-311b4e6f0daa.metadata]
+[function_build_definitions.106418f2-bfac-4117-a09e-5806617e42fe.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/challenge"
 Dockerfile = "Dockerfile.challenge"
 DockerTag = "v0.1"
 
-[function_build_definitions.df048b7d-ed6c-4124-ae4f-a477868f793e]
+[function_build_definitions.e316a703-7f7d-4b87-af82-bd7f094509da]
 packagetype = "Image"
 functions = ["AuthFunction"]
 
-[function_build_definitions.df048b7d-ed6c-4124-ae4f-a477868f793e.metadata]
+[function_build_definitions.e316a703-7f7d-4b87-af82-bd7f094509da.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/auth"
 Dockerfile = "Dockerfile.auth"
 DockerTag = "v0.1"
