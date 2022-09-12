@@ -168,6 +168,18 @@ Resources:
       Roles:
         - !Ref PostAuthenticationRole
 
+  # API Gateway
+  MoazoneApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors: "'*'"
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt UserPool.Arn
+
   # Lambda
   # auth
   DefineAuthChallenge:
@@ -270,7 +282,6 @@ Resources:
             Path: /
             Method: get
     Metadata:
-      # DockerTag: python 3.9
       DockerContext: ./root/
       Dockerfile: Dockerfile.root
       DockerTag: v0.1
@@ -289,7 +300,6 @@ Resources:
             Path: /login/
             Method: get
     Metadata:
-      # DockerTag: python 3.9
       DockerContext: ./login/
       Dockerfile: Dockerfile.login
       DockerTag: v0.1
@@ -308,7 +318,6 @@ Resources:
             Path: /challenge/
             Method: post
     Metadata:
-      # DockerTag: python 3.9
       DockerContext: ./challenge/
       Dockerfile: Dockerfile.challenge
       DockerTag: v0.1
@@ -324,10 +333,10 @@ Resources:
         Root:
           Type: Api
           Properties:
+            RestApiId: !Ref MoazoneApi
             Path: /survey/
             Method: post
     Metadata:
-      # DockerTag: python 3.9
       DockerContext: ./survey/
       Dockerfile: Dockerfile.survey
       DockerTag: v0.1

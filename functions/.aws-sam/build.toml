@@ -46,40 +46,40 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["PostAuthentication"]
 
-[function_build_definitions.88d87259-88c7-4433-ace0-e9a03eba2125]
+[function_build_definitions.a1079109-34d0-4770-8153-149d4d7da316]
 packagetype = "Image"
 functions = ["RootFunction"]
 
-[function_build_definitions.88d87259-88c7-4433-ace0-e9a03eba2125.metadata]
+[function_build_definitions.a1079109-34d0-4770-8153-149d4d7da316.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/root"
 Dockerfile = "Dockerfile.root"
 DockerTag = "v0.1"
 
-[function_build_definitions.93563634-e151-4ba5-bd0a-45dc9277c95b]
+[function_build_definitions.807df535-05ad-48b6-8312-3dfce1ddc232]
 packagetype = "Image"
 functions = ["LoginFunction"]
 
-[function_build_definitions.93563634-e151-4ba5-bd0a-45dc9277c95b.metadata]
+[function_build_definitions.807df535-05ad-48b6-8312-3dfce1ddc232.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/login"
 Dockerfile = "Dockerfile.login"
 DockerTag = "v0.1"
 
-[function_build_definitions.106418f2-bfac-4117-a09e-5806617e42fe]
+[function_build_definitions.1ddc0a2a-c7e1-46c9-99c7-a5eec4cfe55d]
 packagetype = "Image"
 functions = ["ChallengeFunction"]
 
-[function_build_definitions.106418f2-bfac-4117-a09e-5806617e42fe.metadata]
+[function_build_definitions.1ddc0a2a-c7e1-46c9-99c7-a5eec4cfe55d.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/challenge"
 Dockerfile = "Dockerfile.challenge"
 DockerTag = "v0.1"
 
-[function_build_definitions.e316a703-7f7d-4b87-af82-bd7f094509da]
+[function_build_definitions.f9520c6f-4cf8-4df3-ae0b-44e446c4023a]
 packagetype = "Image"
-functions = ["AuthFunction"]
+functions = ["SurveyFunction"]
 
-[function_build_definitions.e316a703-7f7d-4b87-af82-bd7f094509da.metadata]
-DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/auth"
-Dockerfile = "Dockerfile.auth"
+[function_build_definitions.f9520c6f-4cf8-4df3-ae0b-44e446c4023a.metadata]
+DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/survey"
+Dockerfile = "Dockerfile.survey"
 DockerTag = "v0.1"
 
 [layer_build_definitions]
