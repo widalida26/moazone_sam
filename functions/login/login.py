@@ -3,7 +3,6 @@ import json
 import boto3
 
 def handler(event, context):
-    print(event)
     queryStr = event['queryStringParameters']
     email = queryStr['email']
 
