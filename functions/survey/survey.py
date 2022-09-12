@@ -18,6 +18,7 @@ def handler(event, context):
     body_data = event['body']
 
     # users 동의 여부 업데이트
+    print(body_data)
     user_id = body_data['user_id']
     try:
         session.query(Customers).filter(Customers.user_id == user_id).update({ 'consent': 1 })
