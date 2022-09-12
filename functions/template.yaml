@@ -5,11 +5,11 @@ Description: moazone app
 Globals:
   Function:
     Timeout: 3
-    Api:
-      Cors:
-        AllowMethods: "'GET,POST,OPTIONS'"
-        AllowHeaders: "'content-type'"
-        AllowOrigin: "'*'"
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
 
 Parameters:
   Prefix:
@@ -292,6 +292,25 @@ Resources:
       # DockerTag: python 3.9
       DockerContext: ./login/
       Dockerfile: Dockerfile.login
+      DockerTag: v0.1
+
+  ChallengeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageConfig:
+        Command: ['challenge.handler']
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /challenge/
+            Method: post
+    Metadata:
+      # DockerTag: python 3.9
+      DockerContext: ./challenge/
+      Dockerfile: Dockerfile.challenge
       DockerTag: v0.1
 
   AuthFunction:

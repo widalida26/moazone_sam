@@ -3,20 +3,23 @@ import json
 import boto3
 
 def handler(event, context):
-    print(event)
-    queryStr = event['queryStringParameters']
-    email = queryStr['email']
+    body_data = json.loads(event['body'])
+    print(body_data)
+    challenge_data = body_data['challengeData']
+    print(challenge_data)
 
     client = boto3.client('cognito-idp', region_name='ap-northeast-2')
     try:  
-        response = client.initiate_auth(
-            AuthFlow = 'CUSTOM_AUTH',
+        response = client.respond_to_auth_challenge (
+            ChallengeName = 'CUSTOM_CHALLENGE',
             ClientId = os.environ.get('CLIENT_ID'),
-            AuthParameters = {
-                'USERNAME': email
-            }
+            ChallengeResponses = {
+                'USERNAME': challenge_data['username'],
+                'ANSWER': challenge_data['answer'],
+            },
+            Session = challenge_data['session']
         )
-        response["message"] = "login success"
+        print(response)
         return {
             'statusCode': 200,
             'headers': {
@@ -24,7 +27,7 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, POST, GET'
             },
-            'body': json.dumps(response)
+            'body': json.dumps({ "message" : "challenge success" })
         }
     except:
         return {
@@ -34,5 +37,5 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, POST, GET'
             },
-            'body': json.dumps({ "message" : "login fail" })
+            'body': json.dumps({ "message" : "challenge fail" })
         }
