@@ -4,12 +4,6 @@ import boto3
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# db_user = os.environ.get('DATABASE_USERNAME')
-# db_password = os.environ.get('DATABASE_PASSWORD')
-# db_host = os.environ.get('DATABASE_HOST')
-# db_port = os.environ.get('DATABASE_PORT')
-# db_name = os.environ.get('DATABASE_NAME')
-
 db_secret_name = os.environ['DB_SECRET_NAME']
 
 def get_credentials():

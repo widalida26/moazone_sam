@@ -46,38 +46,38 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["PostAuthentication"]
 
-[function_build_definitions.75160e71-07c9-4146-96b0-ed8901f4c45a]
+[function_build_definitions.29d01e7f-3ba2-45c1-ba0f-e6fc9ea635c7]
 packagetype = "Image"
 functions = ["RootFunction"]
 
-[function_build_definitions.75160e71-07c9-4146-96b0-ed8901f4c45a.metadata]
+[function_build_definitions.29d01e7f-3ba2-45c1-ba0f-e6fc9ea635c7.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/root"
 Dockerfile = "Dockerfile.root"
 DockerTag = "v0.1"
 
-[function_build_definitions.887c8054-0015-40d3-a972-8d7a96c73348]
+[function_build_definitions.4438f21d-b1bd-4b64-8bec-269e68fa931f]
 packagetype = "Image"
 functions = ["LoginFunction"]
 
-[function_build_definitions.887c8054-0015-40d3-a972-8d7a96c73348.metadata]
+[function_build_definitions.4438f21d-b1bd-4b64-8bec-269e68fa931f.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/login"
 Dockerfile = "Dockerfile.login"
 DockerTag = "v0.1"
 
-[function_build_definitions.a4847ed4-b21a-411c-a1f8-f90fec14935e]
+[function_build_definitions.f49e2963-5af8-421a-9e0e-4d728ed108c2]
 packagetype = "Image"
 functions = ["ChallengeFunction"]
 
-[function_build_definitions.a4847ed4-b21a-411c-a1f8-f90fec14935e.metadata]
+[function_build_definitions.f49e2963-5af8-421a-9e0e-4d728ed108c2.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/challenge"
 Dockerfile = "Dockerfile.challenge"
 DockerTag = "v0.1"
 
-[function_build_definitions.e850cc61-53ed-4c02-93c6-c8153de128d9]
+[function_build_definitions.e6c61322-479c-4825-887c-1e7ad95bb81d]
 packagetype = "Image"
 functions = ["SurveyFunction"]
 
-[function_build_definitions.e850cc61-53ed-4c02-93c6-c8153de128d9.metadata]
+[function_build_definitions.e6c61322-479c-4825-887c-1e7ad95bb81d.metadata]
 DockerContext = "/Users/wi/Desktop/kosa/project/pj3/sourcecode/moazone_sam/functions/survey"
 Dockerfile = "Dockerfile.survey"
 DockerTag = "v0.1"
