@@ -15,16 +15,12 @@ def dday_calculator(day):
     return dday.days
 
 def handler(event, context):
-    body_data = event['body']
+    body_data = json.loads(event['body'])
 
     # users 동의 여부 업데이트
-    print(body_data)
-    user_id = json.loads(body_data['user_id'])
-    try:
-        session.query(Customers).filter(Customers.user_id == user_id).update({ 'consent': 1 })
-        session.commit()
-    except:
-        session.rollback()
+    user_id = body_data['user_id']
+    session.query(Customers).filter(Customers.user_id == user_id).update({ 'consent': 1 })
+    session.commit()
 
     # new survey 데이터 삽입
     dt = body_data['survey_data']
@@ -54,9 +50,9 @@ def handler(event, context):
     session.commit()
 
     return {
-        'statusCode': 201,
+        'statusCode': 200,
         'headers': {
-            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS, POST'
         },

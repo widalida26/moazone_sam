@@ -9,4 +9,3 @@ region = "ap-northeast-2"
 capabilities = "CAPABILITY_NAMED_IAM"
 parameter_overrides = "Prefix=\"moazone\" RDSUsername=\"admin\" RDSPort=\"3306\" RDSHost=\"card-database.c8ggec4wgb6t.ap-northeast-2.rds.amazonaws.com\" RDSDBName=\"card\""
 image_repositories = ["RootFunction=269872288918.dkr.ecr.ap-northeast-2.amazonaws.com/moazone4aeeae73/rootfunction952ddd96repo", "LoginFunction=269872288918.dkr.ecr.ap-northeast-2.amazonaws.com/moazone4aeeae73/loginfunctiondcf74f1drepo", "ChallengeFunction=269872288918.dkr.ecr.ap-northeast-2.amazonaws.com/moazone4aeeae73/challengefunction8057b248repo", "SurveyFunction=269872288918.dkr.ecr.ap-northeast-2.amazonaws.com/moazone4aeeae73/surveyfunction3d2ba9e4repo"]
-confirm_changeset = true
