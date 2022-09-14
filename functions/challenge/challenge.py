@@ -28,11 +28,6 @@ def handler(event, context):
     consented = session.query(Customers).filter(Customers.user_id == username, Customers.consent == 1).all()
     session.close()
 
-    for row in existed:
-        print(row.consent)
-    for row in consented:
-        print(consented)
-
     if len(existed) < 1: 
         print('existed')
         return {
@@ -64,5 +59,5 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, POST, GET'
             },
-            'body': json.dumps({"accessToken" : authResult['AccessToken'], "username" : challenge_data['username']}) 
+            'body': json.dumps({"accessToken" : authResult['IdToken'], "username" : challenge_data['username']}) 
         }

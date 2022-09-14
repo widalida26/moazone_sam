@@ -30,7 +30,7 @@ def handler(event, context):
         car = dt['car'][0],
         reality = dt['reality'][0],
         child_num = int(dt['child_num']),
-        income_total = int(dt['income_total']),
+        income_total = int(dt['income_total'].replace(",","")),
         income_type = dt['income_type'],
         edu_type = dt['edu_type'],
         family_type = dt['family_type'],
