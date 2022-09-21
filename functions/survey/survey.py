@@ -48,6 +48,7 @@ def handler(event, context):
 
     session.add(survey_info)
     session.commit()
+    session.close()
 
     return {
         'statusCode': 200,
