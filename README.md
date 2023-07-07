@@ -1,2 +1,2 @@
 # moazone_sam
-backend api lambda functions for Sam distribution of moazone project
+lambda functions for backend api and Sam distribution
